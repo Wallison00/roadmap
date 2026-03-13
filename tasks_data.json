@@ -1,0 +1,588 @@
+{
+    "tasks": [
+        {
+            "id": "1772632224049",
+            "title": "Criação das Us's Acompanhamento Protocolo",
+            "date": "2026-03-04",
+            "completed": true,
+            "tagId": "1772661228124",
+            "requesters": [],
+            "subtasks": [
+                {
+                    "id": "1772663117958iqsqd",
+                    "title": "Botão",
+                    "completed": true
+                },
+                {
+                    "id": "17726631601961fkcn",
+                    "title": "Login",
+                    "completed": true
+                },
+                {
+                    "id": "17726632707843spww",
+                    "title": "Protocolo",
+                    "completed": true
+                },
+                {
+                    "id": "1772663276890zxkkw",
+                    "title": "Histórico",
+                    "completed": true
+                },
+                {
+                    "id": "1772663296781exfx3",
+                    "title": "Detalhamento",
+                    "completed": true
+                }
+            ],
+            "completedDate": "2026-03-04"
+        },
+        {
+            "id": "1772632269099",
+            "title": "Alinhamento de ajustes",
+            "date": "2026-03-04",
+            "completed": true,
+            "tagId": "1772661228124",
+            "requesters": [
+                "Tatiana"
+            ],
+            "subtasks": [],
+            "completedDate": "2026-03-05"
+        },
+        {
+            "id": "1772632309285",
+            "title": "Ajuste da planilha de projetos",
+            "date": "2026-03-03",
+            "completed": true,
+            "tagId": "17726617266853e2d3",
+            "requesters": []
+        },
+        {
+            "id": "1772632386302",
+            "title": "Cadastro e Agendamento de Treinamento com a Michelly",
+            "date": "2026-03-03",
+            "completed": true,
+            "tagId": "1772661726685px13n",
+            "requesters": []
+        },
+        {
+            "id": "1772632419071",
+            "title": "Treinamento ao time para o uso da plataforma",
+            "date": "2026-03-05",
+            "completed": true,
+            "tagId": "1772661726685px13n",
+            "requesters": [
+                "Michelly"
+            ],
+            "completedDate": "2026-03-05"
+        },
+        {
+            "id": "1772632582543",
+            "title": "Alinhamentos e teste das notificações",
+            "date": "2026-03-03",
+            "completed": true,
+            "tagId": "1772661228124",
+            "requesters": []
+        },
+        {
+            "id": "1772634945835",
+            "title": "Exclusão de um registro criado a pedido da Tatiana",
+            "date": "2026-03-04",
+            "completed": true,
+            "tagId": "1772661228124",
+            "requesters": []
+        },
+        {
+            "id": "1772634993737",
+            "title": "Sinalização de correção da data de nascimento",
+            "date": "2026-03-03",
+            "completed": true,
+            "tagId": "17726617266855bxyo",
+            "requesters": []
+        },
+        {
+            "id": "1772635403769",
+            "title": "Marcar uma reunião com o Dr. Marcus para validação dos pontos prototipados.",
+            "date": "",
+            "completed": false,
+            "tagId": "1772661260210",
+            "requesters": []
+        },
+        {
+            "id": "1772635919749",
+            "title": "Solicitar a Thyessa sobre as informações do projeto DAC",
+            "date": "2026-03-05",
+            "completed": true,
+            "tagId": "1772661726685orvfi",
+            "requesters": [],
+            "completedDate": "2026-03-05"
+        },
+        {
+            "id": "1772659277593",
+            "title": "Geração de Planilhas de Gestão (Ana Karoline), a pedido da Thais",
+            "date": "2026-03-04",
+            "completed": true,
+            "tagId": "1772661726685kmzyg",
+            "requesters": []
+        },
+        {
+            "id": "1772659330135",
+            "title": "Correção de Bug na vinculação de usuários no subtipo 'Outros' no tipo de serviço 'Fornecedor'",
+            "date": "2026-03-04",
+            "completed": true,
+            "completedDate": "2026-03-04",
+            "tagId": "1772661228124",
+            "requesters": [
+                "Tatiana",
+                "Pamella"
+            ]
+        },
+        {
+            "id": "1772716304306",
+            "title": "Atualização do Portifólio",
+            "date": "2026-03-05",
+            "tagId": "",
+            "requesters": [
+                "William"
+            ],
+            "completed": true,
+            "subtasks": [
+                {
+                    "id": "1772716336836ztg66",
+                    "title": "Adicionar o Gestão de Viagens",
+                    "completed": true
+                },
+                {
+                    "id": "1772716360536zxg23",
+                    "title": "Atualizar os 3 Módulos do Credênciamento",
+                    "completed": true
+                }
+            ],
+            "completedDate": "2026-03-05"
+        },
+        {
+            "id": "1772720204583",
+            "title": "Teste de desenvolvimento",
+            "date": "2026-03-11",
+            "tagId": "1772720178956",
+            "requesters": [
+                "Renan",
+                "Jessica"
+            ],
+            "completed": true,
+            "subtasks": [
+                {
+                    "id": "1773063969542hvljr",
+                    "title": "Alinhamento com a Jessica sobre datas e prazos",
+                    "completed": true,
+                    "completedDate": "2026-03-09"
+                },
+                {
+                    "id": "1773064004505474up",
+                    "title": "Alinhamento com o time sobre a estratégia a ser aplicada.",
+                    "completed": true,
+                    "completedDate": "2026-03-09"
+                },
+                {
+                    "id": "1773068438741f2tvw",
+                    "title": "Criar agenda de entrega para o dia 11 (Quarta)",
+                    "completed": true,
+                    "completedDate": "2026-03-09"
+                },
+                {
+                    "id": "17730712117862w8rs",
+                    "title": "Informar que a parte de projetos ficará para ser entregue em um segundo momento.",
+                    "completed": true,
+                    "completedDate": "2026-03-12"
+                }
+            ],
+            "completedDate": "2026-03-12"
+        },
+        {
+            "id": "1772720895897",
+            "title": "Atualização de demandas",
+            "date": "2026-03-09",
+            "tagId": "1772661228124",
+            "requesters": [
+                "Pamella"
+            ],
+            "completed": true,
+            "subtasks": [
+                {
+                    "id": "1773060237043ulnmc",
+                    "title": "Informar Tatiana sobre o Roadmap",
+                    "completed": true,
+                    "completedDate": "2026-03-09"
+                },
+                {
+                    "id": "1773060251542ffca4",
+                    "title": "Ajustar listagem de demandas",
+                    "completed": true,
+                    "completedDate": "2026-03-09"
+                },
+                {
+                    "id": "1773086322164jircg",
+                    "title": "Criação das US e tasks",
+                    "completed": true,
+                    "completedDate": "2026-03-09"
+                }
+            ],
+            "completedDate": "2026-03-09"
+        },
+        {
+            "id": "1772746795310",
+            "title": "Alinhamento e Ajustes solicitados",
+            "date": "2026-03-05",
+            "tagId": "1772661228124",
+            "requesters": [
+                "Tatiana"
+            ],
+            "completed": true,
+            "completedDate": "2026-03-05"
+        },
+        {
+            "id": "1772803031925",
+            "title": "Alinhamento priorização",
+            "date": "2026-03-06",
+            "tagId": "1772803028350",
+            "requesters": [],
+            "completed": true,
+            "completedDate": "2026-03-06"
+        },
+        {
+            "id": "1772803076454",
+            "title": "Alinhamento das atividades",
+            "date": "2026-03-06",
+            "tagId": "1772661228124",
+            "requesters": [
+                "Guilherme"
+            ],
+            "completed": true,
+            "completedDate": "2026-03-06"
+        },
+        {
+            "id": "1772808858510",
+            "title": "Buscar feedbacks da plataforma",
+            "date": "",
+            "tagId": "17726617266855bxyo",
+            "requesters": [
+                "Vinicius"
+            ],
+            "completed": false,
+            "subtasks": []
+        },
+        {
+            "id": "1773094036560",
+            "title": "Treinamento da 2ª Turma (08:30)",
+            "date": "2026-03-11",
+            "tagId": "1772661726685px13n",
+            "requesters": [
+                "Gabriela Mendes"
+            ],
+            "subtasks": [
+                {
+                    "id": "1773094065165ob6ka",
+                    "title": "Criação da Agenda do Teams",
+                    "completed": true,
+                    "completedDate": "2026-03-10"
+                },
+                {
+                    "id": "1773094074350tge4p",
+                    "title": "Realização do treinamento",
+                    "completed": true,
+                    "completedDate": "2026-03-11"
+                }
+            ],
+            "completed": true,
+            "completedDate": "2026-03-11"
+        },
+        {
+            "id": "1773059474134",
+            "title": "Cadastro dos usuários Restantes",
+            "date": "2026-03-10",
+            "tagId": "1772661726685px13n",
+            "requesters": [
+                "Gabriela Mendes"
+            ],
+            "subtasks": [
+                {
+                    "id": "1773059421384qi3fx",
+                    "title": "Ajustar a relação de usuários",
+                    "completed": true,
+                    "completedDate": "2026-03-10"
+                },
+                {
+                    "id": "1773059433182yxymp",
+                    "title": "Definir os perfis de cada um",
+                    "completed": true,
+                    "completedDate": "2026-03-10"
+                },
+                {
+                    "id": "17730594458195ae2b",
+                    "title": "Cadastrar os usuários no sistema",
+                    "completed": true,
+                    "completedDate": "2026-03-10"
+                },
+                {
+                    "id": "1773163083836hlzkv",
+                    "title": "Aguardando a revisão do cadastro de dois usuários",
+                    "completed": true,
+                    "completedDate": "2026-03-10"
+                }
+            ],
+            "completed": true,
+            "completedDate": "2026-03-10"
+        },
+        {
+            "id": "1773146778705",
+            "title": "Apresentação do protótipo",
+            "date": "2026-03-10",
+            "tagId": "1772661260210",
+            "requesters": [
+                "William"
+            ],
+            "subtasks": [
+                {
+                    "id": "17731467644020z09a",
+                    "title": "Verificar os protótipo no Lovable",
+                    "completed": true,
+                    "completedDate": "2026-03-10"
+                },
+                {
+                    "id": "1773146773490rwhtt",
+                    "title": "Apresentar protótipo",
+                    "completed": true,
+                    "completedDate": "2026-03-10"
+                }
+            ],
+            "completed": true,
+            "completedDate": "2026-03-10"
+        },
+        {
+            "id": "1773171457420",
+            "title": "Reunião com Jansen e Dr. Pitanga para validação do protótipo.",
+            "date": "2026-03-12",
+            "tagId": "1772661260210",
+            "requesters": [
+                "William"
+            ],
+            "subtasks": [
+                {
+                    "id": "1773171429945jnmvn",
+                    "title": "Contato com a Dra. Priscila Pitanga",
+                    "completed": true,
+                    "completedDate": "2026-03-12"
+                },
+                {
+                    "id": "1773171444430636nj",
+                    "title": "Contato com o Jansen (Marketing)",
+                    "completed": false
+                },
+                {
+                    "id": "17731714731387ecss",
+                    "title": "Definição e Criação da Agenda",
+                    "completed": false
+                }
+            ],
+            "completed": false,
+            "notes": "Aguardando retorno da Dra. Priscila"
+        },
+        {
+            "id": "1773237522877",
+            "title": "Testes",
+            "date": "2026-03-13",
+            "tagId": "1772661228124",
+            "requesters": [
+                "Guilherme"
+            ],
+            "notes": "Ficou definido realizar os testes só após o desenvolvimento da US 03 para fazer tudo junto.",
+            "subtasks": [
+                {
+                    "id": "1773341352869ukldr94aj",
+                    "title": "[01][OPME] - Reformulação de formulário e criação da etapa inicial",
+                    "completed": false
+                },
+                {
+                    "id": "1773341352869g1iskc34c",
+                    "title": "[02][OPME] Correção E-mail",
+                    "completed": false
+                },
+                {
+                    "id": "1773341352869nc0b2q71n",
+                    "title": "[03][OPME] - Ajustes",
+                    "completed": false
+                }
+            ],
+            "completed": false
+        },
+        {
+            "id": "1773237576404",
+            "title": "Divisão do épico Credenciamento",
+            "date": "2026-03-12",
+            "tagId": "1772803028350",
+            "requesters": [
+                "Bionde"
+            ],
+            "notes": "",
+            "subtasks": [],
+            "completed": true,
+            "completedDate": "2026-03-12"
+        },
+        {
+            "id": "1773319443879",
+            "title": "Criação da US de Ajustes",
+            "date": "2026-03-12",
+            "tagId": "1772720178956",
+            "requesters": [],
+            "notes": "",
+            "subtasks": [],
+            "completed": true,
+            "completedDate": "2026-03-12"
+        },
+        {
+            "id": "1773240961867",
+            "title": "Contactar a Larissa",
+            "date": "2026-03-13",
+            "tagId": "1772661726685orvfi",
+            "requesters": [
+                "William"
+            ],
+            "notes": "Conforme o Aleandro os projetos apresentados poderão ser tocados pelo time da Larissa pois seguem o mesmo ordenamento da central de serviços.",
+            "subtasks": [
+                {
+                    "id": "1773322887416byfg5",
+                    "title": "Enviado mensagem para a Larissa",
+                    "completed": true,
+                    "completedDate": "2026-03-12"
+                },
+                {
+                    "id": "1773403340916vl22g",
+                    "title": "Realização de contato com o Aleandro para ciencia e validação",
+                    "completed": true,
+                    "completedDate": "2026-03-12"
+                },
+                {
+                    "id": "1773403462469vffoz",
+                    "title": "Ajuste das informações de passagem de bastão para o card o Épico",
+                    "completed": false
+                }
+            ],
+            "completed": false
+        },
+        {
+            "id": "1773325068542",
+            "title": "Formalização dos ajustes solicitados",
+            "date": "2026-03-16",
+            "tagId": "1772661726685px13n",
+            "requesters": [
+                "Gabriela Menezes"
+            ],
+            "notes": "Aguardando a data de disponibilidade da Michelly",
+            "subtasks": [
+                {
+                    "id": "17733250265849j44s",
+                    "title": "Organização dos pontos para alinhamento",
+                    "completed": true,
+                    "completedDate": "2026-03-12"
+                },
+                {
+                    "id": "1773325006061ay064",
+                    "title": "Contato com Michelly para criação da agenda",
+                    "completed": true,
+                    "completedDate": "2026-03-12"
+                },
+                {
+                    "id": "17733249914609k18p",
+                    "title": "Criação da agenda de reunião",
+                    "completed": true,
+                    "completedDate": "2026-03-12"
+                },
+                {
+                    "id": "17733421167062wm7e",
+                    "title": "Adição da Rosiane para tratar sobre os pontos de subespecialidade",
+                    "completed": true,
+                    "completedDate": "2026-03-12"
+                },
+                {
+                    "id": "1773325043315lktos",
+                    "title": "Realização da reunião",
+                    "completed": false
+                }
+            ],
+            "completed": false
+        },
+        {
+            "id": "1773338684335",
+            "title": "[Ajuste][02][ESG] Novas funcionalidades e pendências.",
+            "date": "",
+            "tagId": "1772720178956",
+            "requesters": [],
+            "notes": "Criar as tasks restantes",
+            "subtasks": [],
+            "completed": false
+        },
+        {
+            "id": "1773322304318br6bz",
+            "title": "Testes",
+            "date": "",
+            "tagId": "1772720178956",
+            "completed": false,
+            "requesters": [
+                "Jansen"
+            ],
+            "subtasks": [
+                {
+                    "id": "17733413528690by0mksck",
+                    "title": "[ESG] Ajustes",
+                    "completed": false
+                }
+            ]
+        }
+    ],
+    "tags": [
+        {
+            "id": "1772661228124",
+            "name": "OPME",
+            "color": "#3b82f6"
+        },
+        {
+            "id": "1772661260210",
+            "name": "Hub Médico",
+            "color": "#3b82f6"
+        },
+        {
+            "id": "17726617266853e2d3",
+            "name": "LGPD",
+            "color": "#3b82f6"
+        },
+        {
+            "id": "1772661726685px13n",
+            "name": "Credenciamento",
+            "color": "#3b82f6"
+        },
+        {
+            "id": "17726617266855bxyo",
+            "name": "Gestão de Viagens",
+            "color": "#3b82f6"
+        },
+        {
+            "id": "1772661726685orvfi",
+            "name": "Gestão DAC",
+            "color": "#3b82f6"
+        },
+        {
+            "id": "1772661726685kmzyg",
+            "name": "NAP",
+            "color": "#3b82f6"
+        },
+        {
+            "id": "1772720178956",
+            "name": "ESG",
+            "color": "#3b82f6"
+        },
+        {
+            "id": "1772803028350",
+            "name": "Portifólio",
+            "color": "#3b82f6"
+        }
+    ]
+}

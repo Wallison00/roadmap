@@ -1,0 +1,146 @@
+[
+    {
+        "id": "b957ii6ff",
+        "name": "OPME",
+        "stakeholder": "Tatiana",
+        "startDate": "2026-03-10",
+        "hoursPerDay": 6,
+        "holidays": "",
+        "tasks": [
+            {
+                "name": "[01][OPME] - Reformulação de formulário e criação da etapa inicial",
+                "val": 3,
+                "unit": "d",
+                "color": "#8b5cf6",
+                "subtasks": [
+                    "[Formulário] Criação da Etapa 'Tipo de Solicitante'",
+                    "[Formulário] Renomeação de tipos de serviço",
+                    "[Formulário] Entrada 1ª Etapa"
+                ]
+            },
+            {
+                "name": "[02][OPME] Correção E-mail",
+                "val": 1,
+                "unit": "h",
+                "color": "#10b981",
+                "subtasks": [
+                    "[E-mail] Substituição de nomes na estrutura de E-mail"
+                ]
+            },
+            {
+                "name": "[03][OPME] - Ajustes",
+                "val": 4,
+                "unit": "h",
+                "color": "#f59e0b",
+                "subtasks": [
+                    "[Nomenclatura] 'Credenciamento' renomear os subtipos",
+                    "[Nomenclatura] 'Fornecedor' renomear o subtipo",
+                    "[Formulário] Adição de campos obrigatórios",
+                    "[Formulário] Adição do novo subtipo 'Valor Incorreto'",
+                    "[Formulário] Caracteres mínimos para campos obrigatórios"
+                ]
+            },
+            {
+                "name": "Teste",
+                "val": 1,
+                "unit": "h",
+                "color": "#000000",
+                "subtasks": []
+            }
+        ],
+        "backlog": [
+            {
+                "name": "[04][OPME] - Tela de Acompanhamento",
+                "val": 3,
+                "unit": "d",
+                "color": "#ec4899",
+                "subtasks": [
+                    "[Botão] Ponto de acesso para a Consulta de Protocolo",
+                    "[Login] Tela de Autenticação da Consulta (E-mail e Protocolo)",
+                    "[Tela principal] Painel Lateral de Status e Navegação Global",
+                    "[Tela principal] Histórico de Atualizações (Timeline)",
+                    "[Detalhamento] Renderização dinâmica de campos para Credenciamento (Apoio, Orçamento, Outros, Treinamento)",
+                    "[Detalhamento] Renderização dinâmica de campos para DAC / Regulação (Eletivo e Urgente)",
+                    "[Detalhamento] Renderização dinâmica de campos para Fornecedor (Cadastro de novo fornecedor)",
+                    "[Detalhamento] Renderização dinâmica de campos para Fornecedor (Id Bloqueado / Não Encontrado)",
+                    "[Detalhamento] Renderização dinâmica de campos para Fornecedor (Liberação de faturamento)",
+                    "[Detalhamento] Renderização dinâmica de campos para Fornecedor (Nota Fiscal Recusada e Previsão de Pagamento)",
+                    "[Detalhamento] Renderização dinâmica de campos para Fornecedor (Outros)",
+                    "[Detalhamento] Renderização dinâmica de campos para Fornecedor (Relação de notas pagas)",
+                    "[Detalhamento] Renderização dinâmica de campos para Jurídico (Liminar, NIP, Outros, Ouvidoria, PROCON)",
+                    "[Detalhamento] Renderização dinâmica de campos para Orçamento (Remoção de Subtipo)",
+                    "[Detalhamento] Renderização dinâmica de campos para Prestador (Ajuste, Outros, Pós Cirúrgico, Troca)",
+                    "[Detalhamento] Renderização dinâmica de campos para Reembolso (Outros e Reembolso)"
+                ]
+            },
+            {
+                "name": "[05][OPME] - Criação e Gestão do Perfil Plantonista",
+                "val": 1,
+                "unit": "d",
+                "color": "#4f46e5",
+                "subtasks": [
+                    "[Usuário] Configuração do Perfil Plantonista no Módulo de Usuários",
+                    "[Board] Permissão global de interação no Board Kanban",
+                    "[Board] Botão"
+                ]
+            },
+            {
+                "name": "[A Definir][OPME] - Reformulação do Dashboard",
+                "val": 1,
+                "unit": "d",
+                "color": "#0ea5e9",
+                "subtasks": []
+            }
+        ]
+    },
+    {
+        "id": "d8sabtwzd",
+        "name": "ESG",
+        "stakeholder": "Jansen",
+        "startDate": "2026-03-12",
+        "hoursPerDay": 8,
+        "holidays": "",
+        "tasks": [
+            {
+                "name": "[ESG] Ajustes",
+                "val": 1,
+                "unit": "d",
+                "color": "#10b981",
+                "subtasks": [
+                    "[Landing Page] Reorganização dos menus",
+                    "[Landing Page] Substituição de Logo",
+                    "[Landing][Painel] Ajuste em postagem",
+                    "[Painel] Indicadores de Download",
+                    "[Painel] Ajuste de campo no relatório"
+                ]
+            },
+            {
+                "name": "Teste",
+                "val": 1,
+                "unit": "d",
+                "color": "#10b981",
+                "subtasks": []
+            }
+        ],
+        "backlog": []
+    },
+    {
+        "id": "5eaacpp5g",
+        "name": "Credenciamento - Rede Interna",
+        "stakeholder": "Michelly, Thais Cristina",
+        "startDate": "2026-03-11",
+        "hoursPerDay": 8,
+        "holidays": "",
+        "tasks": [],
+        "backlog": [
+            {
+                "name": "adad",
+                "val": 1,
+                "unit": "d",
+                "color": "#10b981",
+                "desc": "ada",
+                "subtasks": []
+            }
+        ]
+    }
+]

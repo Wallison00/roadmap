@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GanttFlow - Projetos e Roadmap</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <!-- Phosphor Icons for UI lines instead of emojis -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./style.css">
+    <!-- Supabase Client SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+    <aside id="sidebar">
+        <div class="sidebar-header">
+            <div class="brand"><span>◆</span> GanttFlow</div>
+            <button class="btn-toggle-sidebar" onclick="toggleSidebar()" title="Recolher Menu">☰</button>
+        </div>
+
+        <div class="sidebar-menu">
+            <div class="menu-group">
+                <div class="menu-title">Principal</div>
+                <div class="menu-item" id="btn-nav-dashboard" onclick="navTo('dashboard')" title="Visão Geral">
+                    <span class="m-icon">📊</span> <span class="m-text">Visão Geral</span>
+                </div>
+                <div class="menu-item" id="btn-nav-gantt" onclick="navTo('gantt')" title="Gantt Principal">
+                    <span class="m-icon">🗓️</span> <span class="m-text">Gantt Principal</span>
+                </div>
+            </div>
+
+            <div class="menu-group">
+                <div class="menu-title">Projetos Salvos</div>
+                <div id="project-list-sidebar">
+                    <!-- Injected via JS -->
+                </div>
+            </div>
+        </div>
+
+        <div class="sidebar-footer">
+            <button class="btn-new-project" onclick="createNewProject()">+ Novo Projeto</button>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main id="main-content">
+
+        <datalist id="preset-tasks">
+            <option value="Desenvolvimento"></option>
+            <option value="Teste"></option>
+            <option value="Deploy"></option>
+        </datalist>
+
+        <!-- DASHBOARD VIEW -->
+        <section id="view-dashboard" class="view-section active">
+            <h1>Visão Geral da Área de Trabalho</h1>
+            <p class="subtitle">Gerencie seus projetos ou veja a linha do tempo consolidada do seu portfólio.</p>
+
+            <div class="panel"
+                style="background: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%); color: white; border: none;">
+                <h2 style="margin-top:0; color: white;">Visão do Gantt Principal</h2>
+                <p style="color: rgba(255,255,255,0.8); margin-bottom: 20px;">Visualize todos os seus projetos
+                    simultaneamente em uma linha do tempo unificada.</p>
+                <button class="btn" style="background: white; color: #4f46e5;" onclick="navTo('gantt')">Ver Gantt
+                    Principal</button>
+            </div>
+
+            <h2>Projetos Recentes</h2>
+            <div class="dash-cards" id="dash-projects-container">
+                <!-- Injected via JS -->
+            </div>
+        </section>
+
+        <!-- EDITOR VIEW -->
+        <section id="view-editor" class="view-section">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 5px;">
+                <h1>Editor de Projeto</h1>
+                <div style="display: flex; gap: 10px;">
+                    <button class="btn btn-secondary" onclick="navTo('dashboard')">Cancelar</button>
+                    <button class="btn btn-primary" onclick="visualizarRoadmapIndividual()" id="btn-view-single">👁️
+                        Visualizar Roadmap</button>
+                    <button class="btn btn-primary" onclick="saveCurrentProject()">💾 Salvar Projeto</button>
+                </div>
+            </div>
+            <p class="subtitle" id="editor-subtitle">Editando detalhes do projeto.</p>
+
+            <div class="panel">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Nome do Projeto</label>
+                        <input type="text" id="p-name" placeholder="Ex: Redesign do App">
+                    </div>
+                    <div class="form-group">
+                        <label>Cliente / Stakeholder</label>
+                        <input type="text" id="p-stakeholder" placeholder="Ex: Departamento de Marketing">
+                    </div>
+                </div>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Data de Início</label>
+                        <input type="date" id="p-start">
+                    </div>
+                    <div class="form-group">
+                        <label>Horas de Trabalho p/ Dia</label>
+                        <input type="number" id="p-hours" value="8" min="1" max="24">
+                    </div>
+                    <div class="form-group">
+                        <label>Feriados (DD/MM/AAAA, separados por vírgula)</label>
+                        <input type="text" id="p-holidays" placeholder="Ex: 25/12/2026, 01/01/2027">
+                    </div>
+                </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <!-- COLUNA 1: TAREFAS PRINCIPAIS -->
+                <div>
+                    <div class="task-list-header">
+                        <h2>Lista de Tarefas (Calendário)</h2>
+                        <button class="btn btn-secondary" onclick="addTaskToEditor('editor-tasks-container')">+
+                            Adicionar Tarefa</button>
+                    </div>
+
+                    <div id="editor-tasks-container" class="droppable-container"
+                        style="min-height: 150px; padding-bottom: 20px;">
+                        <!-- Tasks injected here -->
+                    </div>
+                </div>
+
+                <!-- COLUNA 2: BACKLOG -->
+                <div>
+                    <div class="task-list-header">
+                        <h2>Backlog (Sem data)</h2>
+                        <button class="btn btn-secondary" onclick="addTaskToEditor('editor-backlog-container')">+
+                            Adicionar ao Backlog</button>
+                    </div>
+
+                    <div id="editor-backlog-container" class="droppable-container"
+                        style="min-height: 150px; background: #f8fafc; border: 1px dashed #cbd5e1; border-radius: 8px; padding: 10px;">
+                        <!-- Backlog injected here -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SINGLE PROJECT ROADMAP VIEW -->
+        <section id="view-single-roadmap" class="view-section">
+            <div class="gantt-header">
+                <div>
+                    <h1 id="single-r-title">Roadmap do Projeto</h1>
+                    <p class="subtitle" id="single-r-subtitle" style="margin:0;">Compartilhamento com Stakeholders.
+                    </p>
+                </div>
+                <div class="gantt-actions">
+                    <button class="btn btn-secondary" onclick="navTo('editor')">🔙 Voltar à Edição</button>
+                    <button class="btn btn-primary" onclick="exportSingleGanttPNG()">⬇️ Exportar PNG</button>
+                </div>
+            </div>
+
+            <div id="single-export-canvas" class="exported-canvas-wrapper"
+                style="background: white; border-radius: var(--radius-lg); padding: 20px; box-shadow: var(--shadow-sm); border: 1px solid var(--border);">
+                <div id="single-roadmap-layout"
+                    style="display: flex; border: 1px solid #eee; border-radius: 6px; overflow: hidden;">
+                    <!-- Coluna da ESQUERDA (Dados das Tarefas) -->
+                    <div id="single-roadmap-sidebar"
+                        style="width: 300px; background-color: #3b9df0; color: white; padding: 20px; box-sizing: border-box; flex-shrink: 0;">
+                        <div class="rs-date-range" id="single-out-date-range"
+                            style="font-size: 0.85rem; margin-bottom: 15px; font-weight: bold;">De -- à --/--</div>
+                        <div class="rs-title" id="single-out-projeto-nome"
+                            style="font-size: 1.2rem; font-weight: bold; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.3); padding-bottom: 10px;">
+                            Nome do Projeto</div>
+
+                        <div class="rs-task-list" id="single-out-sidebar-tasks"
+                            style="font-size: 0.9rem; line-height: 1.4;">
+                            <!-- Injected JS -->
+                        </div>
+                    </div>
+
+                    <!-- Coluna da DIREITA (Gantt Visual) -->
+                    <div id="single-roadmap-calendar"
+                        style="flex: 1; padding: 0 0 20px 20px; box-sizing: border-box; overflow-x: auto;">
+                        <div id="single-out-calendar-grid">
+                            <!-- Injected JS Grid -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- MASTER GANTT VIEW -->
+        <section id="view-gantt" class="view-section">
+            <div class="gantt-header">
+                <div>
+                    <h1>Gráfico de Gantt Principal</h1>
+                    <p class="subtitle" style="margin:0;">Linha do tempo unificada com todos os projetos ativos.</p>
+                </div>
+                <div class="gantt-actions">
+                    <button class="btn btn-secondary" onclick="renderGantt()">🔄 Atualizar</button>
+                    <button class="btn btn-primary" onclick="exportGanttPNG()">⬇️ Exportar PNG</button>
+                </div>
+            </div>
+
+            <div id="gantt-canvas">
+                <div id="gantt-grid">
+                    <!-- Rendered via JS -->
+                    <div style="padding: 40px; text-align: center; color: #94a3b8;">
+                        Carregando Gráfico de Gantt...
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- CUSTOM CONFIRM MODAL -->
+    <div id="custom-confirm"
+        style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.5); z-index:9999; align-items:center; justify-content:center; backdrop-filter: blur(2px);">
+        <div
+            style="background:white; padding:25px; border-radius:8px; text-align:center; box-shadow:0 4px 6px rgba(0,0,0,0.1); max-width: 400px; width: 90%;">
+            <h3 style="margin-top:0; color:#1e293b;">Tem certeza?</h3>
+            <p style="color:#475569; font-size: 0.95rem; margin-bottom: 20px;">Deseja excluir este projeto
+                permanentemente?</p>
+            <div style="display:flex; gap:10px; justify-content:center;">
+                <button class="btn btn-secondary" onclick="closeConfirmModal()">Cancelar</button>
+                <button class="btn btn-primary" style="background:#ef4444;"
+                    onclick="executeDeleteProject()">Excluir</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TASK MODAL -->
+    <div id="custom-task-modal"
+        style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.5); z-index:9999; align-items:center; justify-content:center; backdrop-filter: blur(2px);">
+        <div
+            style="background:white; padding:30px; border-radius:12px; box-shadow:0 10px 15px rgba(0,0,0,0.1); max-width: 500px; width: 90%; position: relative;">
+            <button onclick="closeTaskModal()"
+                style="position: absolute; top: 15px; right: 15px; background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #94a3b8;">&times;</button>
+            <h3 id="modal-task-name" style="margin-top:0; color:#1e293b; padding-right: 30px;">Nome da Tarefa</h3>
+            <div id="modal-task-meta"
+                style="font-size: 0.85rem; color: #4f46e5; font-weight: 600; margin-bottom: 20px; background: #e0e7ff; display: inline-block; padding: 4px 10px; border-radius: 4px;">
+                Duração: --</div>
+            
+            <div id="modal-task-desc" style="font-size: 0.9rem; color: #64748b; margin-bottom: 20px; line-height: 1.5; white-space: pre-wrap; background: #f8fafc; padding: 12px; border-radius: 8px; border-left: 4px solid #e2e8f0;">
+                <!-- Injected via JS -->
+            </div>
+
+            <h4 style="margin: 0 0 10px 0; color: #475569; font-size: 0.95rem; text-transform: uppercase;">Atividades
+                Detalhadas</h4>
+            <ul id="modal-task-subtasks"
+                style="color:#334155; font-size: 0.9rem; padding-left: 20px; list-style-type: disc; margin: 0; max-height: 250px; overflow-y: auto;">
+                <!-- Injected via JS -->
+            </ul>
+        </div>
+    </div>
+
+    <!-- LÓGICA PRINCIPAL (Externalizada) -->
+    <script src="./app.js"></script>
+</body>
+
+</html>
