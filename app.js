@@ -1228,7 +1228,7 @@ window.onload = async () => {
     try {
         const { data, error } = await _supabase
             .from('projects')
-            .select('data');
+            .select('id, data');
 
         if (error) throw error;
 
