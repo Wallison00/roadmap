@@ -308,29 +308,28 @@ function renderTaskBuilderRow(taskData = null, containerId = 'editor-tasks-conta
     div.innerHTML = `
         <div class="task-row-main">
             <span class="drag-handle" style="padding: 10px;">☰</span>
-            <div class="t-color-pip" style="background-color: ${color}; align-self: flex-start; margin-top: 4px;">
+            <div class="t-color-pip" style="background-color: ${color};">
                 <input type="color" class="t-color" value="${color}" onchange="this.parentElement.style.backgroundColor = this.value">
             </div>
-            <div style="display: flex; flex-direction: column; flex: 1; gap: 6px;">
-                <input type="text" class="t-name" placeholder="Nome da Tarefa" value="${name}" list="preset-tasks" style="width: 100%;">
-                <div style="display: flex; gap: 10px; align-items: center; font-size: 0.85rem; color: #475569;">
-                    <div class="toggle-wrapper" title="Marcar como concluída para fixar data fim no gantt">
-                        <label class="toggle-switch">
-                            <input type="checkbox" class="t-completed" ${completed ? 'checked' : ''} onchange="window.toggleEndDate(this)">
-                            <span class="toggle-slider"></span>
-                        </label>
-                        Concluída
-                    </div>
-                    <input type="date" class="t-endDate" value="${endDate}" style="display: ${completed ? 'inline-block' : 'none'}; padding: 2px 6px; font-size: 0.8rem; height: 26px;">
-                </div>
+            
+            <input type="text" class="t-name" placeholder="Nome da Tarefa" value="${name}" list="preset-tasks" style="flex: 1;">
+            
+            <div class="toggle-wrapper" title="Marcar a tarefa como Concluída" style="margin: 0 4px;">
+                <label class="toggle-switch" style="margin: 0;">
+                    <input type="checkbox" class="t-completed" ${completed ? 'checked' : ''} onchange="window.toggleEndDate(this)">
+                    <span class="toggle-slider" title="Concluída"></span>
+                </label>
             </div>
-            <input type="number" class="t-val" placeholder="Qtd" value="${val}" min="0.5" step="0.5" style="align-self: flex-start;">
-            <select class="t-unit" style="align-self: flex-start;">
+            
+            <input type="date" class="t-endDate" value="${endDate}" style="display: ${completed ? 'inline-block' : 'none'}; padding: 6px; font-size: 0.85rem; max-width: 125px; border: 1px solid var(--border); border-radius: 6px; background: #f8fafc; color: #475569;">
+
+            <input type="number" class="t-val" placeholder="Qtd" value="${val}" min="0.5" step="0.5" style="width: 70px;">
+            <select class="t-unit">
                 <option value="h" ${unit === 'h' ? 'selected' : ''}>Horas</option>
                 <option value="d" ${unit === 'd' ? 'selected' : ''}>Dias</option>
             </select>
-            <button class="btn-action" tabindex="-1" onclick="addSubTaskRow(this)" title="Adicionar Sub-tarefa" style="align-self: flex-start;">➕</button>
-            <button class="btn-action delete" tabindex="-1" onclick="this.closest('.task-card').remove()" title="Excluir Tarefa" style="align-self: flex-start;">✖</button>
+            <button class="btn-action" tabindex="-1" onclick="addSubTaskRow(this)" title="Adicionar Sub-tarefa">➕</button>
+            <button class="btn-action delete" tabindex="-1" onclick="this.closest('.task-card').remove()" title="Excluir Tarefa">✖</button>
         </div>
         <textarea class="t-desc" placeholder="Descrição da atividade... informações para tratar antes de virar task">${taskData && taskData.desc ? taskData.desc : ''}</textarea>
         <div class="sub-tasks-container"></div>
