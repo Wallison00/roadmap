@@ -307,6 +307,7 @@ select:focus {
     display: flex;
     gap: 12px;
     align-items: center;
+    flex-wrap: wrap;
 }
 
 .drag-handle {
@@ -849,4 +850,19 @@ select:focus {
 
 .toggle-switch input:checked + .toggle-slider:before {
     transform: translateX(16px);
-}
+}
+
+/* --- RESPONSIVIDADE DO GRID DE TAREFAS --- */
+.tasks-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    align-items: start;
+}
+
+@media (max-width: 1300px) {
+    .tasks-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
