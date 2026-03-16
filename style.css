@@ -288,6 +288,16 @@ select:focus {
     border-color: #cbd5e1;
 }
 
+.task-card.drop-indicator-top {
+    box-shadow: 0 -3px 0 0 var(--primary);
+    border-color: var(--primary);
+}
+
+.task-card.drop-indicator-bottom {
+    box-shadow: 0 3px 0 0 var(--primary);
+    border-color: var(--primary);
+}
+
 .task-card.dragging {
     opacity: 0.4;
     border: 2px dashed var(--primary);
@@ -394,6 +404,17 @@ select:focus {
     display: flex;
     gap: 10px;
     align-items: center;
+    transition: 0.1s;
+}
+
+.sub-task-row.drop-indicator-top {
+    box-shadow: 0 -3px 0 0 var(--primary);
+    border-radius: 4px;
+}
+
+.sub-task-row.drop-indicator-bottom {
+    box-shadow: 0 3px 0 0 var(--primary);
+    border-radius: 4px;
 }
 
 .sub-task-row::before {

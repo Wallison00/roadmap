@@ -410,10 +410,25 @@ function attachSubDragEvents(item) {
         if (draggedSubTask) {
             e.preventDefault();
             e.stopPropagation();
+            if (this !== draggedSubTask) {
+                const bounding = this.getBoundingClientRect();
+                const offset = bounding.y + (bounding.height / 2);
+                this.classList.remove('drop-indicator-top', 'drop-indicator-bottom');
+                if (e.clientY - offset > 0) {
+                    this.classList.add('drop-indicator-bottom');
+                } else {
+                    this.classList.add('drop-indicator-top');
+                }
+            }
         }
     });
 
+    item.addEventListener('dragleave', function (e) {
+        this.classList.remove('drop-indicator-top', 'drop-indicator-bottom');
+    });
+
     item.addEventListener('drop', function (e) {
+        this.classList.remove('drop-indicator-top', 'drop-indicator-bottom');
         if (draggedSubTask) {
             e.preventDefault();
             e.stopPropagation();
@@ -453,9 +468,27 @@ function attachDragEvents(item) {
         }, 0);
     });
     item.addEventListener('dragover', function (e) {
-        e.preventDefault();
+        if (draggedTask) {
+            e.preventDefault();
+            if (this !== draggedTask) {
+                const bounding = this.getBoundingClientRect();
+                const offset = bounding.y + (bounding.height / 2);
+                this.classList.remove('drop-indicator-top', 'drop-indicator-bottom');
+                if (e.clientY - offset > 0) {
+                    this.classList.add('drop-indicator-bottom');
+                } else {
+                    this.classList.add('drop-indicator-top');
+                }
+            }
+        }
     });
+
+    item.addEventListener('dragleave', function (e) {
+        this.classList.remove('drop-indicator-top', 'drop-indicator-bottom');
+    });
+
     item.addEventListener('drop', function (e) {
+        this.classList.remove('drop-indicator-top', 'drop-indicator-bottom');
         e.preventDefault();
         if (this !== draggedTask && draggedTask !== null) {
             const bounding = this.getBoundingClientRect();
