@@ -246,13 +246,21 @@ function saveCurrentProject() {
             let tColor = card.querySelector('.t-color').value;
             let tDesc = card.querySelector('.t-desc').value.trim();
 
+            let tCompleted = false;
+            let tEndDate = '';
+            const cb = card.querySelector('.t-completed');
+            if (cb) {
+                tCompleted = cb.checked;
+                tEndDate = card.querySelector('.t-endDate').value;
+            }
+
             let subtasks = [];
             card.querySelectorAll('.ts-name').forEach(sub => {
                 if (sub.value.trim()) subtasks.push(sub.value.trim());
             });
 
             if (tName && tVal > 0) {
-                arr.push({ name: tName, val: parseFloat(tVal), unit: tUnit, color: tColor, desc: tDesc, subtasks });
+                arr.push({ name: tName, val: parseFloat(tVal), unit: tUnit, color: tColor, desc: tDesc, subtasks, completed: tCompleted, endDate: tEndDate });
             }
         });
         return arr;
@@ -287,28 +295,39 @@ function saveCurrentProject() {
 function renderTaskBuilderRow(taskData = null, containerId = 'editor-tasks-container') {
     const div = document.createElement('div');
     div.className = 'task-card';
-    div.draggable = true;
+    // div.draggable = true; // Removido por padrão para permitir a seleção de texto
 
     const defaultColors = ['#4f46e5', '#10b981', '#ef4444', '#f59e0b', '#8b5cf6', '#0ea5e9', '#ec4899'];
     const color = taskData ? taskData.color : defaultColors[document.querySelectorAll('.task-card').length % defaultColors.length];
     const name = taskData ? taskData.name : '';
     const val = taskData ? taskData.val : '1';
     const unit = taskData ? taskData.unit : 'd';
+    const completed = taskData && taskData.completed ? true : false;
+    const endDate = taskData && taskData.endDate ? taskData.endDate : '';
 
     div.innerHTML = `
         <div class="task-row-main">
-            <span class="drag-handle">☰</span>
-            <div class="t-color-pip" style="background-color: ${color};">
+            <span class="drag-handle" style="padding: 10px;">☰</span>
+            <div class="t-color-pip" style="background-color: ${color}; align-self: flex-start; margin-top: 4px;">
                 <input type="color" class="t-color" value="${color}" onchange="this.parentElement.style.backgroundColor = this.value">
             </div>
-            <input type="text" class="t-name" placeholder="Nome da Tarefa" value="${name}" list="preset-tasks">
-            <input type="number" class="t-val" placeholder="Qtd" value="${val}" min="0.5" step="0.5">
-            <select class="t-unit">
+            <div style="display: flex; flex-direction: column; flex: 1; gap: 6px;">
+                <input type="text" class="t-name" placeholder="Nome da Tarefa" value="${name}" list="preset-tasks" style="width: 100%;">
+                <div style="display: flex; gap: 10px; align-items: center; font-size: 0.85rem; color: #475569;">
+                    <label style="display: flex; align-items: center; gap: 4px; cursor: pointer; margin: 0;">
+                        <input type="checkbox" class="t-completed" ${completed ? 'checked' : ''} onchange="window.toggleEndDate(this)">
+                        Concluída
+                    </label>
+                    <input type="date" class="t-endDate" value="${endDate}" style="display: ${completed ? 'inline-block' : 'none'}; padding: 2px 6px; font-size: 0.8rem; height: 26px;">
+                </div>
+            </div>
+            <input type="number" class="t-val" placeholder="Qtd" value="${val}" min="0.5" step="0.5" style="align-self: flex-start;">
+            <select class="t-unit" style="align-self: flex-start;">
                 <option value="h" ${unit === 'h' ? 'selected' : ''}>Horas</option>
                 <option value="d" ${unit === 'd' ? 'selected' : ''}>Dias</option>
             </select>
-            <button class="btn-action" tabindex="-1" onclick="addSubTaskRow(this)" title="Adicionar Sub-tarefa">➕</button>
-            <button class="btn-action delete" tabindex="-1" onclick="this.closest('.task-card').remove()" title="Excluir Tarefa">✖</button>
+            <button class="btn-action" tabindex="-1" onclick="addSubTaskRow(this)" title="Adicionar Sub-tarefa" style="align-self: flex-start;">➕</button>
+            <button class="btn-action delete" tabindex="-1" onclick="this.closest('.task-card').remove()" title="Excluir Tarefa" style="align-self: flex-start;">✖</button>
         </div>
         <textarea class="t-desc" placeholder="Descrição da atividade... informações para tratar antes de virar task">${taskData && taskData.desc ? taskData.desc : ''}</textarea>
         <div class="sub-tasks-container"></div>
@@ -338,9 +357,30 @@ function addSubTaskRow(btn, value = '') {
     container.appendChild(div);
 }
 
+window.toggleEndDate = function(checkbox) {
+    const dateInput = checkbox.parentElement.nextElementSibling;
+    if (checkbox.checked) {
+        dateInput.style.display = 'inline-block';
+        if (!dateInput.value) {
+            const today = new Date();
+            dateInput.value = today.getFullYear() + '-' + String(today.getMonth() + 1).padStart(2, '0') + '-' + String(today.getDate()).padStart(2, '0');
+        }
+    } else {
+        dateInput.style.display = 'none';
+        dateInput.value = ''; // Limpa a data ao desmarcar
+    }
+};
+
 function attachDragEvents(item) {
+    const handle = item.querySelector('.drag-handle');
+    if(handle) {
+        handle.addEventListener('mousedown', () => { item.draggable = true; });
+        handle.addEventListener('mouseup', () => { item.draggable = false; });
+        handle.addEventListener('mouseleave', () => { item.draggable = false; });
+    }
+
     item.addEventListener('dragstart', function (e) {
-        if (e.target.tagName.toLowerCase() === 'input' || e.target.tagName.toLowerCase() === 'select' || e.target.tagName.toLowerCase() === 'button') {
+        if (e.target.tagName.toLowerCase() === 'input' || e.target.tagName.toLowerCase() === 'select' || e.target.tagName.toLowerCase() === 'button' || e.target.tagName.toLowerCase() === 'textarea') {
             e.preventDefault(); return;
         }
         draggedTask = this;
@@ -350,6 +390,7 @@ function attachDragEvents(item) {
         setTimeout(() => {
             this.classList.remove('dragging');
             draggedTask = null;
+            this.draggable = false;
         }, 0);
     });
     item.addEventListener('dragover', function (e) {
@@ -483,6 +524,18 @@ function calculateProjectSchedule(proj) {
                     taskEnd = new Date(currentDate);
                 }
             }
+
+            if (t.completed && t.endDate) {
+                let endOverride = new Date(t.endDate);
+                endOverride.setHours(12, 0, 0, 0);
+                taskEnd = endOverride; // Finaliza na data marcada
+                
+                // Reposiciona o cronograma (currentDate) para a data finalizada
+                // As tarefas seguintes partem daqui ajustativamente
+                currentDate = new Date(endOverride);
+                currentHour = hoursPerDay; // Considera dia atual todo utilizado
+            }
+
             scheduledTasks.push({ ...t, start: taskStart, end: taskEnd });
         });
     }
@@ -645,8 +698,8 @@ function renderGantt() {
                 html += `
                     <div class="task-bar-wrapper" style="grid-column: ${sIdx + 1} / span ${spanCols}; grid-row: ${laneRow}; min-width: 0;"
                          draggable="true" ondragstart="dragGanttTask(event, '${proj.id}', '${safeName}')">
-                        <div class="task-bar" style="background-color: ${t.color}; cursor: pointer;" title="Clique para detalhes" onclick="openTaskModal('${encodedTask}')">
-                            ${t.name} (${t.val}${unitLabel})
+                        <div class="task-bar" style="background-color: ${t.color}; cursor: pointer; ${t.completed ? 'opacity: 0.85; filter: saturate(0.8);' : ''}" title="Clique para detalhes" onclick="openTaskModal('${encodedTask}')">
+                            ${t.completed ? '✅ ' : ''}${t.name} (${t.val}${unitLabel})
                         </div>
                     </div>
                 `;
@@ -942,11 +995,31 @@ window.onload = async () => {
 
         if (data && data.length > 0) {
             projects = data.map(item => item.data);
+            console.log("Dados carregados do Supabase.");
         } else {
-            // Se o Supabase estiver vazio, tenta carregar do localStorage (migração)
-            projects = JSON.parse(localStorage.getItem('roadmap_projects')) || [];
-            if (projects.length > 0) {
-                persistData(); // Sobe para o Supabase
+            console.log("Supabase vazio. Tentando migrar dados locais...");
+            // 1. Tenta buscar do servidor local (projects.json)
+            try {
+                const localRes = await fetch('/api/projects');
+                if (localRes.ok) {
+                    const localData = await localRes.json();
+                    if (localData && localData.length > 0) {
+                        projects = localData;
+                        console.log("Dados migrados do projects.json local.");
+                        persistData(); // Sobe para o Supabase
+                    }
+                }
+            } catch (err) {
+                console.log("Servidor local não disponível para migração.");
+            }
+
+            // 2. Se ainda estiver vazio, tenta o localStorage
+            if (projects.length === 0) {
+                projects = JSON.parse(localStorage.getItem('roadmap_projects')) || [];
+                if (projects.length > 0) {
+                    console.log("Dados migrados do localStorage.");
+                    persistData();
+                }
             }
         }
     } catch (e) {
