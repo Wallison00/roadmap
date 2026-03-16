@@ -480,6 +480,8 @@ function attachDragEvents(item) {
                     this.classList.add('drop-indicator-top');
                 }
             }
+        } else if (draggedSubTask) {
+            e.preventDefault();
         }
     });
 
@@ -490,6 +492,16 @@ function attachDragEvents(item) {
     item.addEventListener('drop', function (e) {
         this.classList.remove('drop-indicator-top', 'drop-indicator-bottom');
         e.preventDefault();
+        
+        if (draggedSubTask) {
+            e.stopPropagation();
+            const subContainer = this.querySelector('.sub-tasks-container');
+            if (subContainer) {
+                subContainer.appendChild(draggedSubTask);
+            }
+            return;
+        }
+
         if (this !== draggedTask && draggedTask !== null) {
             const bounding = this.getBoundingClientRect();
             const offset = bounding.y + (bounding.height / 2);
@@ -513,8 +525,8 @@ function attachDragEvents(item) {
             if (draggedSubTask) {
                 e.preventDefault();
                 e.stopPropagation();
-                // Permite soltar a subtask numa container vazia (ou final da lista)
-                if (e.target === this || e.target.classList.contains('sub-tasks-container')) {
+                // Caso solte o item num subContainer vazio, na borda ou área morta da sub-task-container
+                if (e.target === this) {
                     this.appendChild(draggedSubTask);
                 }
             }
