@@ -1275,7 +1275,7 @@ window.onload = async () => {
     }
 
     // Se ainda vazio (no fallback init)
-    if (globalHolidays.length === 0 && !data) {
+    if (globalHolidays.length === 0) {
         globalHolidays = JSON.parse(localStorage.getItem('roadmap_global_holidays')) || [];
     }
 
