@@ -2,6 +2,7 @@
 let projects = [];
 let activeProjectId = null;
 let draggedTask = null;
+let draggedSubTask = null;
 
 const meses = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
 const diasSemana = ["D", "S", "T", "Q", "Q", "S", "S"];
@@ -353,10 +354,12 @@ function addSubTaskRow(btn, value = '') {
     const div = document.createElement('div');
     div.className = 'sub-task-row';
     div.innerHTML = `
+        <span class="sub-drag-handle" style="padding: 5px; cursor: grab; color: #94a3b8; font-size: 0.9rem;">☰</span>
         <input type="text" class="ts-name" placeholder="Detalhe da sub-tarefa" value="${value}" style="flex:1; padding: 6px 10px; font-size: 0.85rem; border: 1px solid var(--border); border-radius: 4px;">
         <button class="btn-action delete" tabindex="-1" style="height:28px; width:28px; font-size: 0.9rem;" onclick="this.parentElement.remove()" title="Remover sub-tarefa">✖</button>
     `;
     container.appendChild(div);
+    attachSubDragEvents(div);
 }
 
 window.toggleEndDate = function(checkbox) {
@@ -372,6 +375,60 @@ window.toggleEndDate = function(checkbox) {
         dateInput.value = ''; // Limpa a data ao desmarcar
     }
 };
+
+function attachSubDragEvents(item) {
+    const handle = item.querySelector('.sub-drag-handle');
+    if (handle) {
+        handle.addEventListener('mousedown', () => { item.draggable = true; });
+        handle.addEventListener('mouseup', () => { item.draggable = false; });
+        handle.addEventListener('mouseleave', () => { item.draggable = false; });
+    }
+
+    item.addEventListener('dragstart', function (e) {
+        if (e.target.tagName.toLowerCase() === 'input' || e.target.tagName.toLowerCase() === 'button') {
+            e.preventDefault(); return;
+        }
+        draggedSubTask = this;
+        e.stopPropagation(); // Evita que a task pai também seja arrastada
+        setTimeout(() => {
+            this.classList.add('dragging');
+            this.style.opacity = '0.5';
+        }, 0);
+    });
+
+    item.addEventListener('dragend', function (e) {
+        e.stopPropagation();
+        setTimeout(() => {
+            this.classList.remove('dragging');
+            this.style.opacity = '1';
+            draggedSubTask = null;
+            this.draggable = false;
+        }, 0);
+    });
+
+    item.addEventListener('dragover', function (e) {
+        if (draggedSubTask) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+    });
+
+    item.addEventListener('drop', function (e) {
+        if (draggedSubTask) {
+            e.preventDefault();
+            e.stopPropagation();
+            if (this !== draggedSubTask) {
+                const bounding = this.getBoundingClientRect();
+                const offset = bounding.y + (bounding.height / 2);
+                if (e.clientY - offset > 0) {
+                    this.parentNode.insertBefore(draggedSubTask, this.nextSibling);
+                } else {
+                    this.parentNode.insertBefore(draggedSubTask, this);
+                }
+            }
+        }
+    });
+}
 
 function attachDragEvents(item) {
     const handle = item.querySelector('.drag-handle');
@@ -410,6 +467,26 @@ function attachDragEvents(item) {
             }
         }
     });
+
+    const subContainer = item.querySelector('.sub-tasks-container');
+    if (subContainer) {
+        subContainer.addEventListener('dragover', function(e) {
+            if (draggedSubTask) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+        });
+        subContainer.addEventListener('drop', function(e) {
+            if (draggedSubTask) {
+                e.preventDefault();
+                e.stopPropagation();
+                // Permite soltar a subtask numa container vazia (ou final da lista)
+                if (e.target === this || e.target.classList.contains('sub-tasks-container')) {
+                    this.appendChild(draggedSubTask);
+                }
+            }
+        });
+    }
 }
 
 // --- GANTT CALCULATION & RENDERING ---
