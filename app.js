@@ -307,30 +307,33 @@ function renderTaskBuilderRow(taskData = null, containerId = 'editor-tasks-conta
     const endDate = taskData && taskData.endDate ? taskData.endDate : '';
 
     div.innerHTML = `
-        <div class="task-row-main">
-            <span class="drag-handle" style="padding: 10px;">☰</span>
-            <div class="t-color-pip" style="background-color: ${color};">
-                <input type="color" class="t-color" value="${color}" onchange="this.parentElement.style.backgroundColor = this.value">
+        <div class="task-row-main" style="align-items: stretch; flex-direction: column; gap: 10px;">
+            <!-- Linha 1 -->
+            <div style="display: flex; align-items: center; gap: 12px; width: 100%;">
+                <span class="drag-handle" style="padding: 10px;">☰</span>
+                <div class="t-color-pip" style="background-color: ${color};">
+                    <input type="color" class="t-color" value="${color}" onchange="this.parentElement.style.backgroundColor = this.value">
+                </div>
+                <input type="text" class="t-name" placeholder="Nome da Tarefa" value="${name}" list="preset-tasks" style="flex: 1;">
+                <button class="btn-action delete" tabindex="-1" onclick="this.closest('.task-card').remove()" title="Excluir Tarefa">✖</button>
             </div>
             
-            <input type="text" class="t-name" placeholder="Nome da Tarefa" value="${name}" list="preset-tasks" style="flex: 1;">
-            
-            <div class="toggle-wrapper" title="Marcar a tarefa como Concluída" style="margin: 0 4px;">
-                <label class="toggle-switch" style="margin: 0;">
-                    <input type="checkbox" class="t-completed" ${completed ? 'checked' : ''} onchange="window.toggleEndDate(this)">
-                    <span class="toggle-slider" title="Concluída"></span>
-                </label>
+            <!-- Linha 2 -->
+            <div style="display: flex; align-items: center; justify-content: flex-end; gap: 10px; width: 100%;">
+                <div class="toggle-wrapper" title="Marcar a tarefa como Concluída" style="margin: 0 4px;">
+                    <label class="toggle-switch" style="margin: 0;">
+                        <input type="checkbox" class="t-completed" ${completed ? 'checked' : ''} onchange="window.toggleEndDate(this)">
+                        <span class="toggle-slider" title="Concluída"></span>
+                    </label>
+                </div>
+                <input type="date" class="t-endDate" value="${endDate}" style="display: ${completed ? 'inline-block' : 'none'}; padding: 6px; font-size: 0.85rem; max-width: 125px; border: 1px solid var(--border); border-radius: 6px; background: #f8fafc; color: #475569;">
+                <input type="number" class="t-val" placeholder="Qtd" value="${val}" min="0.5" step="0.5" style="width: 70px;">
+                <select class="t-unit">
+                    <option value="h" ${unit === 'h' ? 'selected' : ''}>Horas</option>
+                    <option value="d" ${unit === 'd' ? 'selected' : ''}>Dias</option>
+                </select>
+                <button class="btn-action" tabindex="-1" onclick="addSubTaskRow(this)" title="Adicionar Sub-tarefa">➕</button>
             </div>
-            
-            <input type="date" class="t-endDate" value="${endDate}" style="display: ${completed ? 'inline-block' : 'none'}; padding: 6px; font-size: 0.85rem; max-width: 125px; border: 1px solid var(--border); border-radius: 6px; background: #f8fafc; color: #475569;">
-
-            <input type="number" class="t-val" placeholder="Qtd" value="${val}" min="0.5" step="0.5" style="width: 70px;">
-            <select class="t-unit">
-                <option value="h" ${unit === 'h' ? 'selected' : ''}>Horas</option>
-                <option value="d" ${unit === 'd' ? 'selected' : ''}>Dias</option>
-            </select>
-            <button class="btn-action" tabindex="-1" onclick="addSubTaskRow(this)" title="Adicionar Sub-tarefa">➕</button>
-            <button class="btn-action delete" tabindex="-1" onclick="this.closest('.task-card').remove()" title="Excluir Tarefa">✖</button>
         </div>
         <textarea class="t-desc" placeholder="Descrição da atividade... informações para tratar antes de virar task">${taskData && taskData.desc ? taskData.desc : ''}</textarea>
         <div class="sub-tasks-container"></div>
