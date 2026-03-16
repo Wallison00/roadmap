@@ -114,6 +114,20 @@
                         <input type="text" id="p-holidays" placeholder="Ex: 25/12/2026, 01/01/2027">
                     </div>
                 </div>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>PO (Product Owner)</label>
+                        <input type="text" id="p-po" placeholder="Ex: Nome do PO">
+                    </div>
+                    <div class="form-group">
+                        <label>Design (UI/UX)</label>
+                        <input type="text" id="p-design" placeholder="Ex: Nome do Designer">
+                    </div>
+                    <div class="form-group">
+                        <label>Dev (Desenvolvimento)</label>
+                        <input type="text" id="p-dev" placeholder="Ex: Nome do Desenvolvedor">
+                    </div>
+                </div>
             </div>
 
             <div class="tasks-grid">
@@ -232,20 +246,22 @@
         </div>
     </div>
 
-    <!-- TASK MODAL -->
     <div id="custom-task-modal"
         style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.5); z-index:9999; align-items:center; justify-content:center; backdrop-filter: blur(2px);">
         <div
-            style="background:white; padding:30px; border-radius:12px; box-shadow:0 10px 15px rgba(0,0,0,0.1); max-width: 500px; width: 90%; position: relative;">
+            style="background:white; padding:30px; border-radius:12px; box-shadow:0 10px 15px rgba(0,0,0,0.1); max-width: 500px; width: 90%; position: relative; max-height: 90vh; overflow-y: auto;">
             <button onclick="closeTaskModal()"
-                style="position: absolute; top: 15px; right: 15px; background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #94a3b8;">&times;</button>
+                style="position: absolute; top: 15px; right: 15px; background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #94a3b8; z-index: 10;">&times;</button>
             <h3 id="modal-task-name" style="margin-top:0; color:#1e293b; padding-right: 30px;">Nome da Tarefa</h3>
             <div id="modal-task-meta"
                 style="font-size: 0.85rem; color: #4f46e5; font-weight: 600; margin-bottom: 20px; background: #e0e7ff; display: inline-block; padding: 4px 10px; border-radius: 4px;">
                 Duração: --</div>
             
-            <div id="modal-task-desc" style="font-size: 0.9rem; color: #64748b; margin-bottom: 20px; line-height: 1.5; white-space: pre-wrap; background: #f8fafc; padding: 12px; border-radius: 8px; border-left: 4px solid #e2e8f0;">
-                <!-- Injected via JS -->
+            <div id="modal-task-desc-container" style="display:none; margin-bottom: 20px;">
+                <div id="modal-task-desc" style="font-size: 0.9rem; color: #64748b; line-height: 1.5; white-space: pre-wrap; background: #f8fafc; padding: 12px; border-radius: 8px; border-left: 4px solid #e2e8f0; max-height: 80px; overflow-y: hidden; transition: max-height 0.3s ease;">
+                    <!-- Injected via JS -->
+                </div>
+                <button id="modal-task-desc-more" onclick="toggleTaskDesc()" style="background:none; border:none; color:#4f46e5; font-size: 0.85rem; margin-top: 5px; cursor:pointer; font-weight: 600; padding: 0;">Ver mais ⬇</button>
             </div>
 
             <h4 style="margin: 0 0 10px 0; color: #475569; font-size: 0.95rem; text-transform: uppercase;">Atividades

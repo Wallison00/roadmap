@@ -135,6 +135,9 @@ function createNewProject() {
     document.getElementById('p-start').value = '';
     document.getElementById('p-hours').value = '8';
     document.getElementById('p-holidays').value = '';
+    document.getElementById('p-po').value = '';
+    document.getElementById('p-design').value = '';
+    document.getElementById('p-dev').value = '';
     document.getElementById('editor-tasks-container').innerHTML = '';
     document.getElementById('editor-backlog-container').innerHTML = '';
 
@@ -157,6 +160,9 @@ function openProject(id) {
     document.getElementById('p-start').value = p.startDate || '';
     document.getElementById('p-hours').value = p.hoursPerDay || 8;
     document.getElementById('p-holidays').value = p.holidays || '';
+    document.getElementById('p-po').value = p.po || '';
+    document.getElementById('p-design').value = p.design || '';
+    document.getElementById('p-dev').value = p.dev || '';
 
     const tasksContainer = document.getElementById('editor-tasks-container');
     tasksContainer.innerHTML = '';
@@ -277,6 +283,9 @@ function saveCurrentProject() {
         startDate: document.getElementById('p-start').value,
         hoursPerDay: parseInt(document.getElementById('p-hours').value) || 8,
         holidays: document.getElementById('p-holidays').value.trim(),
+        po: document.getElementById('p-po').value.trim(),
+        design: document.getElementById('p-design').value.trim(),
+        dev: document.getElementById('p-dev').value.trim(),
         tasks: tasks,
         backlog: backlog
     };
@@ -887,12 +896,27 @@ function openTaskModal(encodedTask) {
     document.getElementById('modal-task-name').innerText = t.name;
     document.getElementById('modal-task-meta').innerText = `Duração: ${t.val}${t.unit === 'h' ? 'h' : 'd'}`;
 
+    const descContainer = document.getElementById('modal-task-desc-container');
     const descEl = document.getElementById('modal-task-desc');
+    const moreBtn = document.getElementById('modal-task-desc-more');
+    
     if (t.desc) {
         descEl.innerText = t.desc;
-        descEl.style.display = 'block';
+        descEl.style.maxHeight = '80px';
+        descEl.style.overflowY = 'hidden';
+        moreBtn.innerText = 'Ver mais ⬇';
+        descContainer.style.display = 'block';
+
+        // Verifica de forma assíncrona se o texto excede o bloco para exibir o botão
+        setTimeout(() => {
+            if (descEl.scrollHeight > 90) {
+                moreBtn.style.display = 'inline-block';
+            } else {
+                moreBtn.style.display = 'none';
+            }
+        }, 10);
     } else {
-        descEl.style.display = 'none';
+        descContainer.style.display = 'none';
     }
 
     let subHtml = t.subtasks && t.subtasks.length > 0
@@ -901,6 +925,18 @@ function openTaskModal(encodedTask) {
 
     document.getElementById('modal-task-subtasks').innerHTML = subHtml;
     document.getElementById('custom-task-modal').style.display = 'flex';
+}
+
+window.toggleTaskDesc = function() {
+    const el = document.getElementById('modal-task-desc');
+    const btn = document.getElementById('modal-task-desc-more');
+    if (el.style.maxHeight === '80px') {
+        el.style.maxHeight = 'none'; // expande
+        btn.innerText = 'Ver menos ⬆';
+    } else {
+        el.style.maxHeight = '80px'; // recolhe
+        btn.innerText = 'Ver mais ⬇';
+    }
 }
 
 function closeTaskModal() {
