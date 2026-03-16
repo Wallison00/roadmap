@@ -314,10 +314,13 @@ function renderTaskBuilderRow(taskData = null, containerId = 'editor-tasks-conta
             <div style="display: flex; flex-direction: column; flex: 1; gap: 6px;">
                 <input type="text" class="t-name" placeholder="Nome da Tarefa" value="${name}" list="preset-tasks" style="width: 100%;">
                 <div style="display: flex; gap: 10px; align-items: center; font-size: 0.85rem; color: #475569;">
-                    <label style="display: flex; align-items: center; gap: 4px; cursor: pointer; margin: 0;">
-                        <input type="checkbox" class="t-completed" ${completed ? 'checked' : ''} onchange="window.toggleEndDate(this)">
+                    <div class="toggle-wrapper" title="Marcar como concluída para fixar data fim no gantt">
+                        <label class="toggle-switch">
+                            <input type="checkbox" class="t-completed" ${completed ? 'checked' : ''} onchange="window.toggleEndDate(this)">
+                            <span class="toggle-slider"></span>
+                        </label>
                         Concluída
-                    </label>
+                    </div>
                     <input type="date" class="t-endDate" value="${endDate}" style="display: ${completed ? 'inline-block' : 'none'}; padding: 2px 6px; font-size: 0.8rem; height: 26px;">
                 </div>
             </div>
