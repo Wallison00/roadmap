@@ -32,6 +32,9 @@
                 <div class="menu-item" id="btn-nav-gantt" onclick="navTo('gantt')" title="Gantt Principal">
                     <span class="m-icon">🗓️</span> <span class="m-text">Gantt Principal</span>
                 </div>
+                <div class="menu-item" id="btn-nav-holidays" onclick="navTo('holidays')" title="Feriados Globais">
+                    <span class="m-icon">🏖️</span> <span class="m-text">Feriados Globais</span>
+                </div>
             </div>
 
             <div class="menu-group">
@@ -109,9 +112,8 @@
                         <label>Horas de Trabalho p/ Dia</label>
                         <input type="number" id="p-hours" value="8" min="1" max="24">
                     </div>
-                    <div class="form-group">
-                        <label>Feriados (DD/MM/AAAA, separados por vírgula)</label>
-                        <input type="text" id="p-holidays" placeholder="Ex: 25/12/2026, 01/01/2027">
+                    <div class="form-group" style="display: none;">
+                        <input type="text" id="p-holidays">
                     </div>
                 </div>
                 <div class="form-grid">
@@ -218,12 +220,40 @@
                 </div>
             </div>
 
-            <div id="gantt-canvas">
+                <div id="gantt-canvas">
                 <div id="gantt-grid">
                     <!-- Rendered via JS -->
                     <div style="padding: 40px; text-align: center; color: #94a3b8;">
                         Carregando Gráfico de Gantt...
                     </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- HOLIDAYS VIEW -->
+        <section id="view-holidays" class="view-section">
+            <div class="gantt-header">
+                <div>
+                    <h1>Feriados Globais</h1>
+                    <p class="subtitle" style="margin:0;">Gerencie as datas que não contarão como dias úteis para todos os seus projetos.</p>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="form-grid" style="grid-template-columns: 1fr 2fr auto; align-items: end; gap: 15px;">
+                    <div class="form-group">
+                        <label>Data</label>
+                        <input type="date" id="new-holiday-date" style="background: white;">
+                    </div>
+                    <div class="form-group">
+                        <label>Nome do Feriado</label>
+                        <input type="text" id="new-holiday-name" placeholder="Ex: Natal, Carnaval..." style="background: white;">
+                    </div>
+                    <button class="btn btn-primary" style="height: 42px;" onclick="addGlobalHoliday()">Adicionar</button>
+                </div>
+
+                <div id="holidays-list-container" style="margin-top: 25px; display: flex; flex-direction: column; gap: 10px;">
+                    <!-- Lista injetada via JS -->
                 </div>
             </div>
         </section>

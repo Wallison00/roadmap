@@ -1,5 +1,6 @@
 // --- DATA & STATE ---
 let projects = [];
+let globalHolidays = [];
 let activeProjectId = null;
 let draggedTask = null;
 let draggedSubTask = null;
@@ -60,14 +61,16 @@ function navTo(viewId) {
     document.getElementById('view-' + viewId).classList.add('active');
 
     document.querySelectorAll('.menu-item').forEach(el => el.classList.remove('active'));
-    if (viewId === 'dashboard' || viewId === 'gantt' || viewId === 'single-roadmap') {
-        if (viewId !== 'single-roadmap') {
-            document.getElementById('btn-nav-' + viewId).classList.add('active');
+    if (viewId === 'dashboard' || viewId === 'gantt' || viewId === 'holidays') {
+        let btn = document.getElementById('btn-nav-' + viewId);
+        if(btn) btn.classList.add('active');
+        if (viewId !== 'holidays') {
             activeProjectId = null;
         }
     }
 
     if (viewId === 'gantt') renderGantt();
+    if (viewId === 'holidays') renderHolidaysList();
 
     // Mostra o botão "Visualizar Roadmap" apenas se o projeto já existir salvo no array e estivermos na view de edição
     if (viewId === 'editor') {
@@ -608,7 +611,12 @@ function advanceToValidWorkingDay(data, holidays, isDeploy = false) {
 
 // Generate data for timeline
 function calculateProjectSchedule(proj) {
-    let holidays = parseFeriadosBR(proj.holidays);
+    let holidays = globalHolidays.map(h => h.date);
+    if(proj.holidays) {
+        parseFeriadosBR(proj.holidays).forEach(h => {
+            if(!holidays.includes(h)) holidays.push(h);
+        });
+    }
     let hoursPerDay = proj.hoursPerDay || 8;
 
     // Convert base string date to Date object in Local Time explicitly
@@ -1143,6 +1151,69 @@ function initDroppableContainers() {
     });
 }
 
+// --- GLOBAL HOLIDAYS ---
+function addGlobalHoliday() {
+    let dateVal = document.getElementById('new-holiday-date').value;
+    let nameVal = document.getElementById('new-holiday-name').value.trim();
+    if (!dateVal || !nameVal) {
+        alert("Preencha a data e o nome do feriado.");
+        return;
+    }
+    
+    // Evita duplicata na data
+    if (globalHolidays.some(h => h.date === dateVal)) {
+        alert("Já existe um feriado cadastrado para esta data.");
+        return;
+    }
+
+    globalHolidays.push({ date: dateVal, name: nameVal });
+    globalHolidays.sort((a,b) => a.date.localeCompare(b.date));
+    
+    document.getElementById('new-holiday-date').value = '';
+    document.getElementById('new-holiday-name').value = '';
+    
+    persistGlobalHolidays();
+}
+
+function removeGlobalHoliday(index) {
+    globalHolidays.splice(index, 1);
+    persistGlobalHolidays();
+}
+
+async function persistGlobalHolidays() {
+    localStorage.setItem('roadmap_global_holidays', JSON.stringify(globalHolidays));
+    if (_supabase) {
+        try {
+            await _supabase.from('projects').upsert({ id: 'GLOBAL_SETTINGS', data: { holidays: globalHolidays } });
+        } catch(e) { console.error(e); }
+    }
+    renderHolidaysList();
+    // Re-render project gantts if needed
+    renderGantt();
+}
+
+function renderHolidaysList() {
+    const container = document.getElementById('holidays-list-container');
+    if (!container) return;
+    container.innerHTML = '';
+    
+    if (globalHolidays.length === 0) {
+        container.innerHTML = '<p style="color: #64748b; font-size: 0.9rem;">Nenhum feriado cadastrado. Adicione um acima.</p>';
+        return;
+    }
+
+    globalHolidays.forEach((h, i) => {
+        let dParts = h.date.split('-');
+        let fDateStr = `${dParts[2]}/${dParts[1]}/${dParts[0]}`;
+        container.innerHTML += `
+            <div style="display: flex; justify-content: space-between; align-items: center; background: #f8fafc; padding: 10px 15px; border-radius: 6px; border: 1px solid var(--border);">
+                <div><strong>${h.name}</strong> <span style="color: #64748b; font-size: 0.85rem; margin-left:10px;">📅 ${fDateStr}</span></div>
+                <button class="btn-action delete" style="height:30px;width:30px;font-size:0.9rem;" onclick="removeGlobalHoliday(${i})" title="Remover">✖</button>
+            </div>
+        `;
+    });
+}
+
 window.onload = async () => {
     initDroppableContainers();
 
@@ -1162,7 +1233,14 @@ window.onload = async () => {
         if (error) throw error;
 
         if (data && data.length > 0) {
-            projects = data.map(item => item.data);
+            let sysSettings = data.find(item => item.id === 'GLOBAL_SETTINGS');
+            if (sysSettings) {
+                globalHolidays = sysSettings.data.holidays || [];
+            } else {
+                globalHolidays = JSON.parse(localStorage.getItem('roadmap_global_holidays')) || [];
+            }
+            
+            projects = data.filter(item => item.id !== 'GLOBAL_SETTINGS').map(item => item.data);
             console.log("Dados carregados do Supabase.");
         } else {
             console.log("Supabase vazio. Tentando migrar dados locais...");
@@ -1193,6 +1271,12 @@ window.onload = async () => {
     } catch (e) {
         console.error('Erro ao conectar com o Supabase:', e);
         projects = JSON.parse(localStorage.getItem('roadmap_projects')) || []; // fallback
+        globalHolidays = JSON.parse(localStorage.getItem('roadmap_global_holidays')) || [];
+    }
+
+    // Se ainda vazio (no fallback init)
+    if (globalHolidays.length === 0 && !data) {
+        globalHolidays = JSON.parse(localStorage.getItem('roadmap_global_holidays')) || [];
     }
 
     renderSidebar();
